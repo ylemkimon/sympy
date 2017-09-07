@@ -1248,31 +1248,22 @@ class Float(Number):
 
     def __eq__(self, other):
         if isinstance(other, float):
-            # coerce to Float at same precision
-            o = Float(other)
-            try:
-                ompf = o._as_mpf_val(self._prec)
-            except ValueError:
+            if self._prec != 53 and self._mpf_ != _mpf_zero:
                 return False
-            return bool(mlib.mpf_eq(self._mpf_, ompf))
+            o = Float(other)
+            return bool(mlib.mpf_eq(self._mpf_, o._mpf_))
         try:
             other = _sympify(other)
         except SympifyError:
             return NotImplemented
+        if self._mpf_ == _mpf_zero and other is S.Zero:
+            return True
         if isinstance(other, NumberSymbol):
             if other.is_irrational:
                 return False
             return other.__eq__(self)
         if isinstance(other, Float):
-            return bool(mlib.mpf_eq(self._mpf_, other._mpf_))
-        if isinstance(other, Number):
-            # numbers should compare at the same precision;
-            # all _as_mpf_val routines should be sure to abide
-            # by the request to change the prec if necessary; if
-            # they don't, the equality test will fail since it compares
-            # the mpf tuples
-            ompf = other._as_mpf_val(self._prec)
-            return bool(mlib.mpf_eq(self._mpf_, ompf))
+            return bool((self._prec == other._prec or self._mpf_ == _mpf_zero) and mlib.mpf_eq(self._mpf_, other._mpf_))
         return False    # Float != non-Number
 
     def __ne__(self, other):
@@ -1335,7 +1326,8 @@ class Float(Number):
         return Expr.__le__(self, other)
 
     def __hash__(self):
-        return super(Float, self).__hash__()
+        import fractions 
+        return hash(fractions.Fraction(*_as_integer_ratio(self)))
 
     def epsilon_eq(self, other, epsilon="1e-15"):
         return abs(self - other) < Float(epsilon)
@@ -1729,8 +1721,6 @@ class Rational(Number):
                 # a Rational is always in reduced form so will never be 2/4
                 # so we can just check equivalence of args
                 return self.p == other.p and self.q == other.q
-            if isinstance(other, Float):
-                return mlib.mpf_eq(self._as_mpf_val(other._prec), other._mpf_)
         return False
 
     def __ne__(self, other):
@@ -1809,7 +1799,8 @@ class Rational(Number):
         return Expr.__le__(expr, other)
 
     def __hash__(self):
-        return super(Rational, self).__hash__()
+        import fractions
+        return hash(fractions.Fraction(self.p, self.q))
 
     def factors(self, limit=None, use_trial=True, use_rho=False,
                 use_pm1=False, verbose=False, visual=False):
@@ -2109,6 +2100,8 @@ class Integer(Rational):
             return (self.p == other)
         elif isinstance(other, Integer):
             return (self.p == other.p)
+        elif self.p == 0 and (isinstance(other, Float) and other._mpf_ == _mpf_zero or isinstance(other, float) and other == 0.0):
+            return True
         return Rational.__eq__(self, other)
 
     def __ne__(self, other):
