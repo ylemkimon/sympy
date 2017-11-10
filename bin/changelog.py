@@ -15,11 +15,11 @@ HEADERS = {
     'm': 'Minor changes'
 }
 PREFIX = '* '
-SUFFIX = ' (#%s)\n' # % pull request number
+SUFFIX = ' ([#{pr_number}](../pull/{pr_number}))\n'
 
 def get_build_information():
     """
-    Return (whether it is a push build, PR number)
+    Return PR number
     """
     event_type = os.environ['TRAVIS_EVENT_TYPE']
     branch = os.environ['TRAVIS_BRANCH']
@@ -31,9 +31,9 @@ def get_build_information():
             os.environ['TRAVIS_COMMIT_MESSAGE']);
         if not match:
             sys.exit('Cannot find pull request number!')
-        return (True, match.group(1))
+        return match.group(1)
     elif event_type == 'pull_request':
-        return (False, os.environ['TRAVIS_PULL_REQUEST'])
+        return os.environ['TRAVIS_PULL_REQUEST']
     elif event_type == 'cron' or event_type == 'api':
         print('Not a push or PR build, skipping changelog')
         sys.exit()
@@ -100,7 +100,7 @@ def update_release_notes(rel_notes_path, changelogs, pr_number):
         if line.startswith('##'):
             # last heading is assumed to be not a changelog header
             if current:
-                suffix = SUFFIX % pr_number
+                suffix = SUFFIX.format(pr_number=pr_number)
                 entry = (PREFIX + (suffix + PREFIX).join(changelogs[header]) +
                     suffix + '\n')
                 if not is_prev_empty:
@@ -121,13 +121,12 @@ def update_release_notes(rel_notes_path, changelogs, pr_number):
     rel_notes.close()
 
 if __name__ == '__main__':
-    update, pr_number = get_build_information()
+    pr_number = get_build_information()
     pr_desc = get_pr_desc(pr_number)
     changelogs = get_changelog(pr_desc)
 
-    if True:
-        rel_notes_path = os.path.abspath(get_release_notes_filename())
-        update_release_notes(rel_notes_path, changelogs, pr_number)
-        with open(rel_notes_path, 'r') as f:
-            print(f.read(), end='')
-        subprocess.run(['git', 'add', rel_notes_path], check=True)
+    rel_notes_path = os.path.abspath(get_release_notes_filename())
+    print('Updating %s' % rel_notes_path)
+    update_release_notes(rel_notes_path, changelogs, pr_number)
+    print('Staging updated release notes')
+    subprocess.run(['git', 'add', rel_notes_path], check=True)
