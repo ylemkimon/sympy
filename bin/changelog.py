@@ -4,6 +4,7 @@ import os
 import sys
 import re
 import requests
+import subprocess
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from collections import defaultdict
@@ -126,6 +127,8 @@ if __name__ == '__main__':
     changelogs = get_changelog(pr_desc)
 
     if True:
-        update_release_notes(os.path.abspath(get_release_notes_filename()), changelogs, pr_number)
-        with open(os.path.abspath(get_release_notes_filename(), 'r') as f:
+        rel_notes_path = os.path.abspath(get_release_notes_filename())
+        update_release_notes(rel_notes_path, changelogs, pr_number)
+        with open(rel_notes_path, 'r') as f:
             print(f.read(), end='')
+        subprocess.run(['git', 'add', rel_notes_path], check=True)
