@@ -1,53 +1,13 @@
 language: python
 sudo: false
 env:
-  matrix:
-  - TEST_DOCTESTS="true" FASTCACHE="false" TEST_SETUP="true"
-  - SPLIT="1/4" TEST_SYMPY="true"
-  - SPLIT="2/4" TEST_SYMPY="true"
-  - SPLIT="3/4" TEST_SYMPY="true"
-  - SPLIT="4/4" TEST_SYMPY="true"
   global:
     - secure: "YIEZal9EBTL+fg2YmoZoS8Bvt3eAVUOZjb38CtqpzR2CCSXWoUk35KG23m2NknlY1iKfYJyt7XWBszT/VKOQEbWQq7PIakV4vIByrWacgBxy1x3WC+rZoW7TX+JJiL+y942qIYbMoNMMB8xFpE5RDLSjSecMpFhJJXoafVTvju8="
-    - secure: "KY4F2kL2YLZGAZr/MKOaW2JSDJKliHgR6lD6eRHOJ4WKCjr9l2MW6WwsCFKmtLLy76eJYZumUkTMSNf/eKT8tgnrIxB7vJr1FIECSHB97LXonhxqd3nCvfxIByz0fmLuJPfNIySvcoW0MExbAXK7fn3+Q0KWxU8gGcA6QaPzoZAr/SkL7hY1VGSKZmQWY3zbdtxh1nO/alIZsDPyhrgTHGnb1y0lVettw2eqH2lCUgN87R4w72ZPrfLSgDiCXbzmmMNRdaHbA0KUcaLNCD+/tMvXDYuPGl3Ohw42Zj5II5kTk3yTSgaR6lJGW0Q39m7MzRJnUaPNyAy/MYQ6e6v65LXOWT31L0/eU1jIc4psLbySIllOx8JtcSijn7kx+xOWcBZYBGJVzd+RRc0lUMdNVO49MzmH+ojwYWZTV4/qvIKE8a9DT8/IX6dpxmGx3XA+DiJB17kfBWM5yF9kBD6PhC4q6h4hboMjLovCW1/UNvFOER0N0pfOVUVkkSCwjORs+GPF55nvXTpomJ03k+bcWEn1fbQp+0H66ladcIvn9AwfNtRFKCVK4d86EU4UdE7a8yTihpTu/napu4FyGqbLx4BPkgwDj2SU1YfkHETgMwZb2YMX9LiRsB9VoOTdj2Mt9oXVy9/83cMfUXjN+SRlmR08ZrwBeDoo1WlwRkhvzDg="
+    - secure: "R+hKWd1cyBr8eaisZsGLF9y+UUDMP9XJAmHLXzhdpS+z/ynDvgSkZPB+6CWazhUS3hGJNkjcp+aT9BGRsh9z6Co1s2GViVRv2kJh1K3sENaIRWhYxtx1PU5AHMb+UxpKae6+Gwku7erx1pa4IfJ4DVaKjoUmxYRpfD1rVHIDkfi5s7KQAfqF6DrABalGY/JVxDwfreJSKDqvE6vsjD0B7N5aOqDJIfuB76BEvKopsaVHtaXYUiykExj8eKO9qjEB3HSXf8CX0rJLqrQ0Q6YghuP8B8dO7AZ4hNnztUmqmdwJh8V4V7boh22UPvKJeXpGTOltMl2yijQXZMnPlL2vlh25lLqOgtYgCb7ti7Gh77PkyL55cGlKj20mXzaH9HHvlXfu0/8Ai1HhMD9y6I5FhVTgzGeJ3hPt8U6IVqwoanVb3e1jzOu7gL68xNNbgHzAU6uEkipwBtqoYgbYlNBg/4WEpL1T8FFCsgDKoW7awm+gmisQa+8z186y110+gxgVslqfm03+9bxIT3+/LndOwcxfucyi6Va1ESS3jSL2U7WWo2BrhNE62w7px7zHEGSOEAzxAIDOBx5qeBqNwFhr1aNdOVsfLTQyGRb0Mt2mOvaFUhyhc0cBbFSUpb1AR4QegYd8f8itcOb7eKieXR1JpXuPxYyhTFQk73RkeoDFaUQ="
 dist: trusty
-
-python:
-  - 2.7
-  - 3.4
-  - 3.5
-  - 3.6
 
 matrix:
   include:
-    - python: 2.7
-      env:
-        - TEST_ASCII="true"
-        # space separated list of optional dependencies(conda packages) to install and test
-        # autowrap installs libgfortran libgcc gcc cython
-        - TEST_OPT_DEPENDENCY="numpy scipy gmpy2 matplotlib theano llvmlite autowrap python-symengine=0.3.* tensorflow numexpr ipython"
-      addons:
-        apt:
-          packages:
-            # for theano
-            - libatlas-dev
-            - libatlas-base-dev
-            - liblapack-dev
-            - gfortran
-    - python: 3.6
-      env:
-        - TEST_ASCII="true"
-        - TEST_OPT_DEPENDENCY="numpy scipy gmpy2 matplotlib theano llvmlite autowrap python-symengine=0.3.* tensorflow numexpr ipython"
-      addons:
-        apt:
-          packages:
-            # for theano
-            - libatlas-dev
-            - libatlas-base-dev
-            - liblapack-dev
-            - gfortran
-            - python-scipy
-
     - python: 3.6
       env:
         - TEST_SPHINX="true"
@@ -67,165 +27,13 @@ matrix:
             - imagemagick
             - docbook2x
 
-    - python: 2.7
-      env:
-        - TEST_SLOW="true"
-        - SPLIT="1/3"
-    - python: 2.7
-      env:
-        - TEST_SLOW="true"
-        - SPLIT="2/3"
-    - python: 2.7
-      env:
-        - TEST_SLOW="true"
-        - SPLIT="3/3"
-    - python: 3.6
-      env:
-        - TEST_SLOW="true"
-        - SPLIT="1/3"
-    - python: 3.6
-      env:
-        - TEST_SLOW="true"
-        - SPLIT="2/3"
-    - python: 3.6
-      env:
-        - TEST_SLOW="true"
-        - SPLIT="3/3"
-
-    # Everything here and below is in the allow_failures. The need to be
-    # duplicated here and in that section below.
-    - python: 3.5 # Dummy value
-      env:
-        - TEST_SAGE="true"
-        - FASTCACHE="false"
-      sudo: true
-
-    - python: "pypy"
-      env:
-        - TEST_DOCTESTS="true"
-        - FASTCACHE="false"
-        - TEST_SETUP="true"
-      addons:
-        apt:
-          sources:
-            - pypy
-          packages:
-            - pypy
-    - python: "pypy"
-      env:
-        - TEST_SYMPY="true"
-        - SPLIT="1/4"
-        - FASTCACHE="false"
-      addons:
-        apt:
-          sources:
-            - pypy
-          packages:
-            - pypy
-    - python: "pypy"
-      env:
-        - TEST_SYMPY="true"
-        - SPLIT="2/4"
-        - FASTCACHE="false"
-      addons:
-        apt:
-          sources:
-            - pypy
-          packages:
-            - pypy
-    - python: "pypy"
-      env:
-        - TEST_SYMPY="true"
-        - SPLIT="3/4"
-        - FASTCACHE="false"
-      addons:
-        apt:
-          sources:
-            - pypy
-          packages:
-            - pypy
-    - python: "pypy"
-      env:
-        - TEST_SYMPY="true"
-        - SPLIT="4/4"
-        - FASTCACHE="false"
-      addons:
-        apt:
-          sources:
-            - pypy
-          packages:
-            - pypy
-
-  allow_failures:
-    # The apt installation of sage fails sometimes
-    - python: 3.5 # Dummy value
-      env:
-        - TEST_SAGE="true"
-        - FASTCACHE="false"
-      sudo: true
-    # PyPy randomly fails because of some PyPy bugs (Fatal RPython error: AssertionError)
-    - python: "pypy"
-      env:
-        - TEST_DOCTESTS="true"
-        - FASTCACHE="false"
-        - TEST_SETUP="true"
-      addons:
-        apt:
-          sources:
-            - pypy
-          packages:
-            - pypy
-    - python: "pypy"
-      env:
-        - TEST_SYMPY="true"
-        - SPLIT="1/4"
-        - FASTCACHE="false"
-      addons:
-        apt:
-          sources:
-            - pypy
-          packages:
-            - pypy
-    - python: "pypy"
-      env:
-        - TEST_SYMPY="true"
-        - SPLIT="2/4"
-        - FASTCACHE="false"
-      addons:
-        apt:
-          sources:
-            - pypy
-          packages:
-            - pypy
-    - python: "pypy"
-      env:
-        - TEST_SYMPY="true"
-        - SPLIT="3/4"
-        - FASTCACHE="false"
-      addons:
-        apt:
-          sources:
-            - pypy
-          packages:
-            - pypy
-    - python: "pypy"
-      env:
-        - TEST_SYMPY="true"
-        - SPLIT="4/4"
-        - FASTCACHE="false"
-      addons:
-        apt:
-          sources:
-            - pypy
-          packages:
-            - pypy
-
 before_install:
   - if [[ "${FASTCACHE}" != "false" ]]; then
       pip install fastcache;
     fi
   - if [[ "${TEST_SPHINX}" == "true" ]]; then
-      pip install "sphinx" "docutils" doctr requests gitpython;
+      pip install "sphinx" "docutils" requests;
+      pip install git+https://github.com/ylemkimon/doctr.git@wiki;
     fi
   - |
     if [[ "${TEST_OPT_DEPENDENCY}" ]]; then
@@ -283,11 +91,12 @@ script:
   # Don't run doctr if the build fails
   - set -e
   - if [[ "${TEST_SPHINX}" == "true" ]]; then
-        python bin/changelog.py;
+        mkdir wiki;
+        cd wiki;
+        doctr deploy . --built-docs --key-env CHANGELOG_DEPLOY_KEY --key-path changelog_deploy_key.enc --deploy-repo ylemkimon/sympy.wiki --no-sync --command '${TRAVIS_BUILD_DIR}/bin/changelog.py';
+        ls -R;
+        cd ..;
     fi
   - bin/test_travis.sh
-  - if [[ "${TEST_SPHINX}" == "true" ]]; then
-        doctr deploy dev --deploy-repo sympy/sympy_doc --command './generate_indexes.py';
-    fi
 notifications:
   email: false

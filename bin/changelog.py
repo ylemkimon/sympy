@@ -4,7 +4,6 @@ import re
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
-from git import Repo, Actor
 from collections import defaultdict
 
 HEADERS = {
@@ -125,16 +124,8 @@ if __name__ == '__main__':
     changelogs = get_changelog(pr_desc)
 
     if update:
-        repo = Repo.clone_from('https://release-notes-bot:' + os.environ['RNBOT_TOKEN'] +
-            '@github.com/' + os.environ['TRAVIS_REPO_SLUG'] + '.wiki.git',
-            os.path.abspath('wiki'))
+        print(os.getcwd());
 
-        rel_notes_path = os.path.join(repo.working_tree_dir,
-            get_release_notes_filename())
-        update_release_notes(rel_notes_path, changelogs, pr_number)
-
-        repo.index.add([rel_notes_path])
-        bot = Actor('Release Notes Bot', '33476835+release-notes-bot@users.noreply.github.com')
-        repo.index.commit('Update release notes after pull request #%s' %
-            pr_number, author=bot, committer=bot)
-        repo.remotes.origin.push()
+        #rel_notes_path = os.path.join(repo.working_tree_dir,
+        #    get_release_notes_filename())
+        #update_release_notes(rel_notes_path, changelogs, pr_number)
