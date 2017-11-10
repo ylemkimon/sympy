@@ -91,13 +91,8 @@ script:
   # Don't run doctr if the build fails
   - set -e
   - if [[ "${TEST_SPHINX}" == "true" ]]; then
-        cd doc;
-        getfacl .;
-        cd ..;
         mkdir wiki;
-        cd wiki;
-        getfacl .;
-        doctr deploy . --built-docs wiki --key-env CHANGELOG_DEPLOY_KEY --key-path changelog_deploy_key.enc --deploy-repo ylemkimon/sympy.wiki --no-sync --command '${TRAVIS_BUILD_DIR}/bin/changelog.py';
+        doctr deploy . --built-docs wiki --key-env CHANGELOG_DEPLOY_KEY --key-path changelog_deploy_key.enc --deploy-repo ylemkimon/sympy.wiki --no-sync --command 'ls -R && python ${TRAVIS_BUILD_DIR}/bin/changelog.py';
         ls -R;
     fi
   - bin/test_travis.sh
