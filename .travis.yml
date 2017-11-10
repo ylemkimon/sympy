@@ -93,7 +93,8 @@ script:
   - if [[ "${TEST_SPHINX}" == "true" ]]; then
         mkdir wiki;
         cd wiki;
-        doctr deploy . --built-docs --key-env CHANGELOG_DEPLOY_KEY --key-path changelog_deploy_key.enc --deploy-repo ylemkimon/sympy.wiki --no-sync --command '${TRAVIS_BUILD_DIR}/bin/changelog.py';
+        mkdir docs;
+        doctr deploy . --built-docs ./docs --key-env CHANGELOG_DEPLOY_KEY --key-path changelog_deploy_key.enc --deploy-repo ylemkimon/sympy.wiki --no-sync --command '${TRAVIS_BUILD_DIR}/bin/changelog.py';
         ls -R;
         cd ..;
     fi
