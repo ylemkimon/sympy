@@ -123,5 +123,7 @@ if __name__ == '__main__':
     pr_desc = get_pr_desc(pr_number)
     changelogs = get_changelog(pr_desc)
 
-    if update:
+    if True:
         update_release_notes(os.path.abspath(get_release_notes_filename()), changelogs, pr_number)
+        with open(os.path.abspath(get_release_notes_filename(), 'r') as f:
+            print(f.read(), end='')
