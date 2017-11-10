@@ -124,8 +124,4 @@ if __name__ == '__main__':
     changelogs = get_changelog(pr_desc)
 
     if update:
-        print(os.getcwd());
-
-        #rel_notes_path = os.path.join(repo.working_tree_dir,
-        #    get_release_notes_filename())
-        #update_release_notes(rel_notes_path, changelogs, pr_number)
+        update_release_notes(os.path.abspath(get_release_notes_filename()), changelogs, pr_number)

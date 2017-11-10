@@ -53,6 +53,9 @@ covhtml/
 doc/_build/
 doc/sphinx/
 
+# Scripts used in updating wiki
+bin_wiki/
+
 # pdf files generated from svg files (cd doc; make latex)
 doc/src/modules/physics/mechanics/*.pdf
 doc/src/modules/physics/vector/*.pdf
