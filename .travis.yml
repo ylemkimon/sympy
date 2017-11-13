@@ -9,6 +9,7 @@ env:
   - SPLIT="4/4" TEST_SYMPY="true"
   global:
     - secure: "YIEZal9EBTL+fg2YmoZoS8Bvt3eAVUOZjb38CtqpzR2CCSXWoUk35KG23m2NknlY1iKfYJyt7XWBszT/VKOQEbWQq7PIakV4vIByrWacgBxy1x3WC+rZoW7TX+JJiL+y942qIYbMoNMMB8xFpE5RDLSjSecMpFhJJXoafVTvju8="
+    - secure: "XSm//nPxGDBkf3i/wUqFlNKJ9CGlxil5slg+t0e1WoHBWD/m3wSaQEZopFWktN+tKJg8d64N4mOU7LMjxkTpqW2poC1AKIgPHHCXkgTZhTvfCP9a6qUYhr1UMxGU11z4jtDlaNJS1E/dV2esNMhEKxsYcvFjDAMQ1Ctc/0H2AizZTkgXABjq8bK4a0uxmAZzI/nThT74AoSsU7G1YzDvU8Hw7qCYyDFoNvAYY1fuYvYD0BRey7Q4+LIpZc4TWXl2l0c4dvWBD1xEkfqmLl3eSatLh43LijGOiyHmYqStlrxfjppUkdtqBYinB1+aQmr2Vsnpont37/0FhDYCDrupfqHoWedi6uks4UoJ0SwZmuLt8tCYM2PWbhAR+cwG6s6duzp54vWJFEXEi9PqAYYcLVe8JWd79dS2OIEnFqRdRR9Dsfp+/qvWk9rGYWeazraVt5Kf38vlijktebC5ulv4XeTaGPefhh2vjonXgOkBV6waM7W9IpCrc1TDaqpp2LbOwGN5aAcAkmk8umcjlScz5e/zoWf6viz3COt3ropn9Oaf68ursPTEbaPoGXYsBj1jVht09ZMd2WxYMmEYyKZPFjwA/NkwGXhhzE4R3zMRhedSVNciMGxSgSK8Sy3VhuWMvYqxIyKBTfIY9G+T9KtwZJT+Qpb6jH+zuyYVg3yg79U="
 dist: trusty
 
 python:
@@ -284,7 +285,7 @@ script:
   - if [[ "${TEST_SPHINX}" == "true" ]]; then
         cp bin/changelog.py ~/changelog.py;
         chmod +x ~/changelog.py;
-        doctr deploy . --built-docs . --deploy-repo sympy/sympy.wiki --no-sync --command '~/changelog.py';
+        doctr deploy . --built-docs . --deploy-repo ylemkimon/sympy.wiki --no-sync --command '~/changelog.py';
     fi
   - bin/test_travis.sh
   - if [[ "${TEST_SPHINX}" == "true" ]]; then
